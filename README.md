@@ -1,4 +1,4 @@
-#HaukiBOT beta
+# HaukiBOT beta
 
 A Telegram bot to track the progress of consuming your kyykkä failures.
 
