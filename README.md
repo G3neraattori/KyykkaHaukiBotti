@@ -10,7 +10,7 @@ A Telegram bot to track the progress of consuming your kyykkä failures.
 
 <details>
   <summary>Basic installation</summary>
-  
+  <br/><br/>
   Basic pre-install and how to run the bot. 
   
   1. Make sure you have node installed.
