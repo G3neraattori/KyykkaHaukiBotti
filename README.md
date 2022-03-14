@@ -8,6 +8,25 @@ A Telegram bot to track the progress of consuming your kyykkä failures.
 
 ## Installation
 
+<details>
+  <summary>Basic install</summary>
+  Basic pre-install and how to run the bot.
+  
+  1. Make sure you have node installed.
+ 
+  2. Navigate (in terminal) to the project root and run
+  ```
+  npm install
+  ```
+  3. Create the .env file as instructed below
+  
+  4. To run, in project root
+  ```
+  node index
+  ```
+  
+</details>
+  
 Create file called ".env" into the project directory and add the following:
 
 ```
