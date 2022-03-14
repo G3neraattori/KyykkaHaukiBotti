@@ -9,8 +9,9 @@ A Telegram bot to track the progress of consuming your kyykkä failures.
 ## Installation
 
 <details>
-  <summary>Basic install</summary>
-  Basic pre-install and how to run the bot.
+  <summary>Basic installation</summary>
+  
+  Basic pre-install and how to run the bot. 
   
   1. Make sure you have node installed.
  
@@ -26,6 +27,7 @@ A Telegram bot to track the progress of consuming your kyykkä failures.
   ```
   
 </details>
+
   
 Create file called ".env" into the project directory and add the following:
 
