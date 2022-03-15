@@ -1,6 +1,6 @@
 const fs = require("fs").promises;
 
-
+//TODO: The search method is duplicated. Move to a function that returns the placement of user in userdata.json
 module.exports = {
     // Add new user to userdata.json
     createUser: async (user) => {
@@ -99,6 +99,21 @@ module.exports = {
                     await fs.writeFile('./models/userdata.json', JSON.stringify(users, null, 4));
                     return false;
                 }
+                await fs.writeFile('./models/userdata.json', JSON.stringify(users, null, 4));
+                return true;
+            }
+        }
+    },
+
+    lisaaHaukia: async (id, number) => {
+        const file2 = await fs.readFile('./models/userdata.json')
+        let users = [
+            {},
+        ];
+        users = await JSON.parse(file2);
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].id.toString().includes(id)) {
+                users[i].hauet = (users[i].hauet * 1) + (number * 1);
                 await fs.writeFile('./models/userdata.json', JSON.stringify(users, null, 4));
                 return true;
             }

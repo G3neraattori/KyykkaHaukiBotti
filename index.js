@@ -9,6 +9,7 @@ const {TOKEN, TEAM} = process.env;
 
 const bot = new Telegraf(TOKEN);
 const teamUrl = "";
+//TODO refactor code duplicates to functions
 
 //TODO Let players find other players hauki left
 bot.command('laske', ctx => {
@@ -16,8 +17,7 @@ bot.command('laske', ctx => {
         if(!val){
             /*ctx.reply("Anna pelaajan nimi");
             bot.on('text', cnx => {*/
-            let msg = ctx.message.text
-            let msgArray = msg.split(' ');
+            let msgArray = ctx.message.text.split(' ');
             msgArray.shift();
             let haettava = msgArray.join(' ');
             if(haettava === ""){
@@ -35,7 +35,7 @@ bot.command('laske', ctx => {
                     db.createUser(user)
                 }else{
                     ctx.reply("Nimeä ei löytynyt joukkueesta.")
-                    return;
+
 
                 }
             })
@@ -53,11 +53,13 @@ bot.command('laske', ctx => {
 });
 
 bot.command('juo', ctx =>{
-    db.findUser(ctx.message.from.id).then(function (result){
+    /*db.findUser(ctx.message.from.id).then(function (result){
         if(!result){
             ctx.reply("Tunnistaudu ensin. /laske etunimi")
             return;
-        }
+        }*/
+    checkUser(ctx).then(function (result){
+        if(!result) return;
         db.juoHauki(ctx.message.from.id).then(function (result){
             if(result){
                 ctx.reply('Ryybs');
@@ -65,11 +67,39 @@ bot.command('juo', ctx =>{
                 ctx.reply('Hauet on jo juotu loppuun')
             }
         });
+    })
 
+
+
+    //});
+
+});
+
+//TODO add hauki from outside NKL
+bot.command('lisaa', ctx => {
+    checkUser(ctx).then(function (result){
+        if(!result) return;
+
+        let msgArray = ctx.message.text.split(' ');
+        msgArray.shift();
+        let montako = msgArray.join(' ');
+        console.log(isNaN(montako * 1))
+        if(montako === ""){
+            ctx.reply("Montako haukea haluat lisätä. /lisaa [montako]");
+            return;
+        }else if(isNaN(montako * 1)){
+            ctx.reply(`${montako} ei ole numero`)
+            return;
+        }
+        db.lisaaHaukia(ctx.message.from.id, montako).then(function (){
+            ctx.reply(`${montako} haukea lisätty`)
+        })
 
     });
 
-});
+
+
+})
 
 bot.command('poista', ctx =>{
     db.removeUser(ctx.message.from.id);
@@ -86,6 +116,19 @@ bot.command('help', ctx => {
 })
 
 bot.launch();
+
+const checkUser = function (ctx) {
+    return new Promise(function (resolve){
+        db.findUser(ctx.message.from.id).then(function (result){
+            let isUser = true;
+            if(!result){
+                ctx.reply("Tunnistaudu ensin. /laske etunimi")
+                isUser = false;
+            }
+            resolve(isUser);
+        })
+    })
+}
 
 
 //UNUSED COMMANDS/TEMPLATES. WILL BE FIXED OR REMOVED LATER
