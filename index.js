@@ -13,19 +13,47 @@ const teamUrl = "";
 
 //TODO Let players find other players hauki left
 bot.command('laske', ctx => {
+    let id;
+
+    let msgArray = ctx.message.text.split(' ');
+    msgArray.shift();
+    let name = msgArray.join(' ');
+    console.log(isNaN(name * 1))
+    if(name === ""){
+        db.findUser(ctx.message.from.id).then(function (user) {
+            //console.log("This is your Telegram userID: " + user)
+            id = user;
+            db.findHauki(id).then(function (result) {
+                ctx.reply('Haukia jäljellä: ' + result);
+            })
+        });
+    }else{
+        db.findUserByName(name).then(function (user){
+            id = user;
+            db.findHauki(id).then(function (result) {
+                ctx.reply('Haukia jäljellä: ' + result);
+            })
+        })
+    }
+
+
+});
+
+bot.command('tunnistaudu', ctx => {
     db.findUser(ctx.message.from.id).then(function (val){
-        if(!val){
+        if(!val) {
             /*ctx.reply("Anna pelaajan nimi");
             bot.on('text', cnx => {*/
             let msgArray = ctx.message.text.split(' ');
             msgArray.shift();
             let haettava = msgArray.join(' ');
-            if(haettava === ""){
-                ctx.reply("Tunnistaudu ensin. /laske omanimi");
+            if (haettava === "") {
+                ctx.reply("Tunnistaudu ensin. /tunnistaudu omanimi");
                 return;
             }
-            add.getHauki(haettava, TEAM).then(function (result){
-                if(result !== false){
+
+            add.getHauki(haettava, TEAM).then(function (result) {
+                if (result !== false) {
                     ctx.reply(`Sinulla on ${result} haukea.`);
                     const user = {
                         "name": haettava,
@@ -33,24 +61,17 @@ bot.command('laske', ctx => {
                         "hauet": result,
                     };
                     db.createUser(user)
-                }else{
+                } else {
                     ctx.reply("Nimeä ei löytynyt joukkueesta.")
 
 
                 }
             })
-
-            //});
         }else{
-            db.findUser(ctx.message.from.id).then(function (user) {
-                //console.log("This is your Telegram userID: " + user)
-                db.findHauki(user).then(function (result) {
-                    ctx.reply('Haukia jäljellä: ' + result);
-                })
-            })
+            ctx.reply("Olet jo tunnistautunut. /poista ensin, jos haluat tunnistautua uudelleen.")
         }
     });
-});
+})
 
 bot.command('juo', ctx =>{
     /*db.findUser(ctx.message.from.id).then(function (result){

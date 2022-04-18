@@ -51,6 +51,18 @@ module.exports = {
         return false;
     },
 
+    findUserByName: async (name) => {
+        const file2 = await fs.readFile('./models/userdata.json')
+        let user = await JSON.parse(file2);
+        for (let i = 0; i < user.length; i++) {
+            if (user[i].name.toString().includes(name)) {
+                return user[i].id;
+            }
+
+        }
+        return false;
+    },
+
     //Currently unused
     updateUser: async (name, what) => {
         const file2 = await fs.readFile('./models/userdata.json')
