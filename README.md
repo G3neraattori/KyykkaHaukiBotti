@@ -13,7 +13,7 @@ A Telegram bot to track the progress of consuming your kyykkä failures.
   <br/>
   Basic pre-install and how to run the bot. 
   
-  1. Make sure you have node installed.
+  1. Make sure you have node and npm (or similar) installed.
  
   2. Navigate (in terminal) to the project root and run
   ```
