@@ -24,14 +24,19 @@ bot.command('laske', ctx => {
             //console.log("This is your Telegram userID: " + user)
             id = user;
             db.findHauki(id).then(function (result) {
-                ctx.reply('Haukia jäljellä: ' + result);
+                ctx.reply('Haukia jäljellää: ' + result);
             })
         });
     }else{
         db.findUserByName(name).then(function (user){
             id = user;
             db.findHauki(id).then(function (result) {
-                ctx.reply('Haukia jäljellä: ' + result);
+                if(user){
+                    ctx.reply('Haukia jäljellä: ' + result);
+                }else{
+                    ctx.reply('Kuka sä oot?');
+                }
+
             })
         })
     }
@@ -93,6 +98,25 @@ bot.command('juo', ctx =>{
 
 
     //});
+
+});
+
+bot.command('lauta', ctx =>{
+    /*db.findUser(ctx.message.from.id).then(function (result){
+        if(!result){
+            ctx.reply("Tunnistaudu ensin. /laske etunimi")
+            return;
+        }*/
+    checkUser(ctx).then(function (result){
+        if(!result) return;
+        db.juoLauta(ctx.message.from.id).then(function (result){
+            if(result){
+                ctx.reply('RYYBS!');
+            }else{
+                ctx.reply('Hauet on jo juotu loppuun')
+            }
+        });
+    })
 
 });
 

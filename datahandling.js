@@ -116,6 +116,29 @@ module.exports = {
             }
         }
     },
+    //Removes one hauki from hauki database
+    juoLauta: async (id) => {
+        const file2 = await fs.readFile('./models/userdata.json')
+        let users = [
+            {},
+        ];
+        users = await JSON.parse(file2);
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].id.toString().includes(id)) {
+                for(let x = 0; x <= 6; x++){
+                    let hauet = users[i].hauet -= 1
+                    if(hauet < 0){
+                        console.log("There are none left.");
+                        users[i].hauet = 0;
+                        await fs.writeFile('./models/userdata.json', JSON.stringify(users, null, 4));
+                        return false;
+                    }
+                }
+                await fs.writeFile('./models/userdata.json', JSON.stringify(users, null, 4));
+                return true;
+            }
+        }
+    },
 
     lisaaHaukia: async (id, number) => {
         const file2 = await fs.readFile('./models/userdata.json')
